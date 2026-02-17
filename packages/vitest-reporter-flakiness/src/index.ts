@@ -5,19 +5,21 @@ import type { Reporter, TestCase, TestModule, TestSuite } from 'vitest/node'
 
 const printReport = (report: Report) => {
   if (report.flakyTests.length === 0) {
-    console.log('✅ [vitest-reporter-flakiness] No flaky tests found.')
+    // Don't print anything. A "success" could be misleading, since the report will only report flaky tests and don't care about whether the test suit failed or not.
     return
   }
 
   console.warn(
-    `❌ [vitest-reporter-flakiness] Found ${report.flakyTests.length} flaky test(s):`,
+    `⚠️ [vitest-reporter-flakiness] Found ${report.flakyTests.length} flaky test(s):`,
   )
   for (const flakyTest of report.flakyTests) {
     console.warn(
       `- ${flakyTest.moduleName} > ${[
         ...flakyTest.suitePath,
         flakyTest.testName,
-      ].join(' > ')} (retries: ${flakyTest.retries})`,
+      ]
+        .map((it) => JSON.stringify(flakyTest.testName))
+        .join(' > ')} (retries: ${flakyTest.retries})`,
     )
   }
 }

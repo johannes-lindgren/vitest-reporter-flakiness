@@ -41,13 +41,20 @@ Add the reporter to your Vitest configuration:
 ```js
 // vitest.config.js
 import { defineConfig } from 'vitest/config'
-import { FlakinessReporter } from 'vitest-reporter-flakiness'
+import FlakinessReporter from 'vitest-reporter-flakiness'
 
 export default defineConfig({
   test: {
+    // Important: to be able to report flaky tests, you need to set a retry count.
+    //  This is because a test is only considered flaky if it passed but had retries.
+    retry: 3,
     reporters: [
       new FlakinessReporter({
-        outputFile: 'reports/flaky-tests-report.json',
+        outputFile: 'reports/flaky-tests.json',
+        // disableConsoleOutput: true,
+        // onReport: (report) => {
+        //   // Do something
+        // },
       }),
     ],
   },
@@ -58,6 +65,8 @@ In CI, trigger an alert if the reporter generated the report file; for example, 
 could include a step like this:
 
 ```yaml
+# .github/workflows/example.yml
+
 - name: Report flaky tests
   run: |
     echo "=== Running flakiness reporter ==="
