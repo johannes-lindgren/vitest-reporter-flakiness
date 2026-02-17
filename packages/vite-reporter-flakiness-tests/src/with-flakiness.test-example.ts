@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest'
 
-describe('Test flaky test reporter', () => {
+describe('flaky tests', () => {
   let testCounter = 0
-  it('should report a flaky test', () => {
+  it('is a flaky test', () => {
     testCounter++
-    expect(testCounter).toBeGreaterThan(1)
+    expect(testCounter).toBeGreaterThan(2)
   })
   // it('should not report a stable test', () => {
   //   expect(true).toBe(true)

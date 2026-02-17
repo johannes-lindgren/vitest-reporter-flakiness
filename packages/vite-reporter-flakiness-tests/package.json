@@ -1,5 +1,5 @@
 {
-  "name": "@repo/e2e",
+  "name": "@repo/vite-reporter-flakiness-tests",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
