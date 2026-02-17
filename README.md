@@ -62,28 +62,23 @@ export default defineConfig({
 ```
 
 In CI, trigger an alert if the reporter generated the report file; for example, in GitHub actions, the workflow
-could include a step like this:
+could include steps like this:
 
 ```yaml
-# .github/workflows/example.yml
-
+- name: Run tests
+  run: npm test
 - name: Report flaky tests
   run: |
-    echo "=== Running flakiness reporter ==="
-    # Simulate flakiness detection (replace with actual command)
-    if [ -f "examples/app-with-ci/reports/flaky-tests.json" ]; then
-      echo "Flaky tests detected:"
+    if [ -f "reports/flaky-tests.json" ]; then
       # TODO: this is where you would want to send a notification or create an issue based on the flakiness report.
       echo "Artifacts: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    else
-      echo "No flaky tests detected."
     fi
 - name: Upload flaky test report artifact
   if: always()
   uses: actions/upload-artifact@v4
   with:
     name: flaky-tests-report
-    path: examples/app-with-ci/reports/flaky-tests.json
+    path: reports/flaky-tests.json
     if-no-files-found: ignore
 ```
 
