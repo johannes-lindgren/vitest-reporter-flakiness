@@ -38,17 +38,12 @@
     "dev": "tsc --watch",
     "build": "tsc",
     "preview": "node dist/index.js",
-    "test": "vitest",
-    "check:types": "tsc --noEmit",
-    "check:formatting": "prettier . --check",
-    "format": "prettier . --write"
+    "check:types": "tsc --noEmit"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "prettier": "3.1.0",
-    "typescript": "^5.5.4",
-    "vitest": "^4.0.18"
+    "typescript": "^5.5.4"
   }
 }
