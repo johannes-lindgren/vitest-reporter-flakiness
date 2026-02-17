@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
       - name: Install
-        run: npm install --frozen-lockfile
+        run: npm ci
       - name: Check Code Formatting
         run: npm run check:formatting
       - name: Check Types
