@@ -3,11 +3,11 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020"],
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     // not understood by vite-plugin-dts: it will not resolve .ts -> .d.ts
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
@@ -22,5 +22,5 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitAny": true
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts"]
 }

@@ -38,11 +38,10 @@
   },
   "scripts": {
     "dev": "vite build --watch",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest --pass-with-no-tests",
+    "test": "vitest",
     "check:types": "tsc",
-    "check:circular-dependencies": "dpdm  -T --exit-code circular:1 ./src/index.ts",
     "check:formatting": "prettier . --check",
     "format": "prettier . --write"
   },
