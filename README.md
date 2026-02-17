@@ -23,22 +23,9 @@ Install the package:
 npm install vitest-reporter-flakiness --save-dev
 ```
 
-Ensure that you have retries enabled in your Vitest configuration for the reporter to work effectively:
+Add the reporter to your Vitest configuration. Ensure that you have retries enabled in your Vitest configuration for the reporter to work effectively:
 
-```js// vitest.config.js
-import { defineConfig } from 'vitest/config'
-
-export default defineConfig({
-  test: {
-    // Adjust the number of retries as needed
-    retries: 2,
-  },
-})
-```
-
-Add the reporter to your Vitest configuration:
-
-```js
+```ts
 // vitest.config.js
 import { defineConfig } from 'vitest/config'
 import FlakinessReporter from 'vitest-reporter-flakiness'
@@ -51,10 +38,6 @@ export default defineConfig({
     reporters: [
       new FlakinessReporter({
         outputFile: 'reports/flaky-tests.json',
-        // disableConsoleOutput: true,
-        // onReport: (report) => {
-        //   // Do something
-        // },
       }),
     ],
   },
@@ -88,6 +71,14 @@ See the examples here:
 
 - [Example app](https://github.com/johannes-lindgren/vitest-reporter-flakiness/blob/main/examples/app-with-ci/vitest.config.ts)
 - [Example workflow](https://github.com/johannes-lindgren/vitest-reporter-flakiness/blob/main/.github/workflows/example.yml)
+
+## API
+
+The `FlakinessReporter` accepts an options object with the following (optional) properties:
+
+- `outputFile` (`string`): The path to the output file where the flakiness report will be saved.
+- `disableConsoleOutput` (`boolean`): If set to `true`, the reporter will not output flaky test information to the console. Default is `false`.
+- `onReport` (`(report: Report) => void`): A callback function that will be called with the
 
 <br/>
 <div align="center">
