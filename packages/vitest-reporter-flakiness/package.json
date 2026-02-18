@@ -1,6 +1,6 @@
 {
   "name": "vitest-reporter-flakiness",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0-beta.2",
   "private": false,
   "description": "A Vitest reporter that identifies and reports flaky tests by tracking test retries and their outcomes.",
   "author": {
@@ -46,6 +46,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "dependencies": {
+    "chalk": "^5.6.2"
+  },
   "devDependencies": {
     "typescript": "^5.5.4",
     "vitest": "^4.0.18",

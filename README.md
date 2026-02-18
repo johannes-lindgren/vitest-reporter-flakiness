@@ -67,10 +67,34 @@ could include steps like this:
 
 ## Examples
 
-See the examples here:
+See the example configuration:
 
 - [Example app](https://github.com/johannes-lindgren/vitest-reporter-flakiness/blob/main/examples/app-with-ci/vitest.config.ts)
 - [Example workflow](https://github.com/johannes-lindgren/vitest-reporter-flakiness/blob/main/.github/workflows/example.yml)
+
+This gives the following output in the terminal:
+
+```text
+⚠️ Found 1 flaky test(s):
+  • src/with-flakiness.test.ts
+    └─ flaky tests
+      └─ is a flaky test (retry x2)
+```
+
+And generates a file, `reports/flaky-tests.json`:
+
+```json
+{
+  "flakyTests": [
+    {
+      "moduleName": "src/with-flakiness.test.ts",
+      "suitePath": ["flaky tests"],
+      "testName": "is a flaky test",
+      "retries": 2
+    }
+  ]
+}
+```
 
 ## API
 

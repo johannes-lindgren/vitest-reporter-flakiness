@@ -2,6 +2,7 @@ import type { TaskResultPack } from '@vitest/runner'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import type { Reporter, TestCase, TestModule, TestSuite } from 'vitest/node'
+import chalk from 'chalk'
 
 const packageName = 'vitest-reporter-flakiness'
 
@@ -11,19 +12,33 @@ const printReport = (report: Report) => {
     return
   }
 
+  const baseIndent = '  '
+
+  console.log()
   console.warn(
-    `⚠️ [${packageName}] Found ${report.flakyTests.length} flaky test(s):`,
+    chalk.yellow(
+      `⚠️ ${chalk.bold(`Warning`)}: ${packageName} found ${report.flakyTests.length} flaky test(s):`,
+    ),
   )
   for (const flakyTest of report.flakyTests) {
-    console.warn(
-      `- ${flakyTest.moduleName} > ${[
-        ...flakyTest.suitePath,
-        flakyTest.testName,
-      ]
-        .map((it) => JSON.stringify(it))
-        .join(' > ')} (retries: ${flakyTest.retries})`,
-    )
+    const moduleName = flakyTest.moduleName
+    const retries = chalk.yellow(`(retry x${flakyTest.retries})`)
+    const depth = flakyTest.suitePath.length
+    // Build tree lines with reduce
+    const treeLines = flakyTest.suitePath.reduce((acc, suite, idx) => {
+      const indent = baseIndent.repeat(idx)
+      const branch = `└─ `
+      acc.push(`${indent}${branch}${suite}`)
+      return acc
+    }, [] as string[])
+    // Render test name as last node
+    const testIndent = baseIndent.repeat(depth)
+    treeLines.push(`${testIndent}└─ ${flakyTest.testName} ${retries}`)
+    // Print tree
+    console.warn(`${baseIndent}• ${moduleName}`)
+    treeLines.forEach((line) => console.warn(`    ${line}`))
   }
+  console.log()
 }
 
 const writeReport = (report: Report, outputFile: string) => {
@@ -163,7 +178,9 @@ class Index implements Reporter {
 
     if (anyRetry0 && !this.options.disableConsoleOutput) {
       console.warn(
-        `⚠️ [${packageName}] Warning: \`test.retry\ in the vitest configuration is set to 0, which means that flaky tests will not be detected. Please set retry to a value greater than 0 in your Vitest config.`,
+        chalk.yellow(
+          `⚠️ ${chalk.bold(`Warning`)}: ${packageName} will not find any flaky test when ${chalk.bold(`test.retry`)} is undefined or set to 0.\n`,
+        ),
       )
     }
   }
