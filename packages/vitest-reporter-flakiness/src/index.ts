@@ -16,7 +16,9 @@ const printReport = (report: Report) => {
 
   console.log()
   console.warn(
-    chalk.yellow.bold(`⚠️ Found ${report.flakyTests.length} flaky test(s):`),
+    chalk.yellow(
+      `⚠️ ${chalk.bold(`Warning`)}: ${packageName} found ${report.flakyTests.length} flaky test(s):`,
+    ),
   )
   for (const flakyTest of report.flakyTests) {
     const moduleName = flakyTest.moduleName
@@ -176,7 +178,9 @@ class Index implements Reporter {
 
     if (anyRetry0 && !this.options.disableConsoleOutput) {
       console.warn(
-        `⚠️ [${packageName}] Warning: \`test.retry\ in the vitest configuration is set to 0, which means that flaky tests will not be detected. Please set retry to a value greater than 0 in your Vitest config.`,
+        chalk.yellow(
+          `⚠️ ${chalk.bold(`Warning`)}: ${packageName} will not find any flaky test when ${chalk.bold(`test.retry`)} is undefined or set to 0.\n`,
+        ),
       )
     }
   }
